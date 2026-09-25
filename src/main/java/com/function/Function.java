@@ -41,89 +41,121 @@ public class Function {
             context.getLogger().info("Datos recibidos: " + data);
 
             // ==========================================
-            // 4. Datos comunes
+            // 4. Procesar RolCreado
             // ==========================================
 
-            String fechaCita = data.get("fechaCita").getAsString();
+            if ("RolCreado".equals(eventType)) {
 
-            long idCita = data.get("idCita").getAsLong();
+                String nombreRol = data.get("nombreRol").getAsString();
 
-            long idUsuario = data.get("idUsuario").getAsLong();
-
-            long idCliente = data.get("idCliente").getAsLong();
-
-            long idMascota = data.get("idMascota").getAsLong();
-
-            String estado = data.get("estado").getAsString();
-
-            // ==========================================
-            // 5. Procesar CitaCreada
-            // ==========================================
-
-            if ("CitaCreada".equals(eventType)) {
+                String estado = data.get("estado").getAsString();
 
                 context.getLogger().info("========================================");
-
-                context.getLogger().info("NOTIFICACIÓN - NUEVA CITA");
-
+                context.getLogger().info("NOTIFICACIÓN - NUEVO ROL");
                 context.getLogger().info("========================================");
 
-                // ==========================================
-                // 6. Procesar CitaConfirmada
-                // ==========================================
+                context.getLogger().info("Nombre rol: " + nombreRol);
 
-            } else if ("CitaConfirmada".equals(eventType)) {
+                context.getLogger().info("Estado: " + estado);
 
                 context.getLogger().info("========================================");
-
-                context.getLogger().info("NOTIFICACIÓN - CITA CONFIRMADA");
-
-                context.getLogger().info("========================================");
-
-                // ==========================================
-                // 7. Procesar CitaCancelada
-                // ==========================================
-
-            } else if ("CitaCancelada".equals(eventType)) {
-
-                context.getLogger().info("========================================");
-
-                context.getLogger().info("NOTIFICACIÓN - CITA CANCELADA");
-
-                context.getLogger().info("========================================");
-
-                // ==========================================
-                // 8. Evento no soportado
-                // ==========================================
-
-            } else {
-
-                context.getLogger().info("Evento recibido pero no procesado: " + eventType);
 
                 return;
             }
 
             // ==========================================
-            // 9. Información de la cita
+            // 5. Procesar eventos de Citas
             // ==========================================
 
-            context.getLogger().info("ID Cita: " + idCita);
+            if ("CitaCreada".equals(eventType)
+                    || "CitaConfirmada".equals(eventType)
+                    || "CitaCancelada".equals(eventType)) {
 
-            context.getLogger().info("Fecha cita: " + fechaCita);
+                // ==========================================
+                // Datos específicos de Cita
+                // ==========================================
 
-            context.getLogger().info("Cliente: " + idCliente);
+                String fechaCita = data.get("fechaCita").getAsString();
 
-            context.getLogger().info("Mascota: " + idMascota);
+                long idCita = data.get("idCita").getAsLong();
 
-            context.getLogger().info("Usuario: " + idUsuario);
+                long idUsuario = data.get("idUsuario").getAsLong();
 
-            context.getLogger().info("Estado: " + estado);
+                long idCliente = data.get("idCliente").getAsLong();
 
-            context.getLogger().info("========================================");
+                long idMascota = data.get("idMascota").getAsLong();
+
+                String estado = data.get("estado").getAsString();
+
+                // ==========================================
+                // 6. Procesar CitaCreada
+                // ==========================================
+
+                if ("CitaCreada".equals(eventType)) {
+
+                    context.getLogger().info("========================================");
+
+                    context.getLogger().info("NOTIFICACIÓN - NUEVA CITA");
+
+                    context.getLogger().info("========================================");
+
+                // ==========================================
+                // 7. Procesar CitaConfirmada
+                // ==========================================
+
+                } else if ("CitaConfirmada".equals(eventType)) {
+
+                    context.getLogger().info("========================================");
+
+                    context.getLogger().info("NOTIFICACIÓN - CITA CONFIRMADA");
+
+                    context.getLogger().info("========================================");
+
+                // ==========================================
+                // 8. Procesar CitaCancelada
+                // ==========================================
+
+                } else if ("CitaCancelada".equals(eventType)) {
+
+                    context.getLogger().info("========================================");
+
+                    context.getLogger().info("NOTIFICACIÓN - CITA CANCELADA");
+
+                    context.getLogger().info("========================================");
+                }
+
+                // ==========================================
+                // 9. Información de la cita
+                // ==========================================
+
+                context.getLogger().info("ID Cita: " + idCita);
+
+                context.getLogger().info("Fecha cita: " + fechaCita);
+
+                context.getLogger().info("Cliente: " + idCliente);
+
+                context.getLogger().info("Mascota: " + idMascota);
+
+                context.getLogger().info("Usuario: " + idUsuario);
+
+                context.getLogger().info("Estado: " + estado);
+
+                context.getLogger().info("========================================");
+
+                return;
+            }
+
+            // ==========================================
+            // 10. Evento no soportado
+            // ==========================================
+
+            context.getLogger().info(
+                    "Evento recibido pero no procesado: " + eventType);
 
         } catch (Exception e) {
 
-            context.getLogger().severe("Error procesando evento Event Grid: " + e.getMessage());
+            context.getLogger().severe(
+                    "Error procesando evento Event Grid: " + e.getMessage());
 
             throw e;
         }
