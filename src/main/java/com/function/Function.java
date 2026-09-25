@@ -13,9 +13,7 @@ public class Function {
             final ExecutionContext context) {
 
         context.getLogger().info("========================================");
-
         context.getLogger().info("Evento recibido desde Azure Event Grid");
-
         context.getLogger().info("========================================");
 
         try {
@@ -43,24 +41,26 @@ public class Function {
             context.getLogger().info("Datos recibidos: " + data);
 
             // ==========================================
-            // 4. Procesar CitaCreada
+            // 4. Datos comunes
+            // ==========================================
+
+            String fechaCita = data.get("fechaCita").getAsString();
+
+            long idCita = data.get("idCita").getAsLong();
+
+            long idUsuario = data.get("idUsuario").getAsLong();
+
+            long idCliente = data.get("idCliente").getAsLong();
+
+            long idMascota = data.get("idMascota").getAsLong();
+
+            String estado = data.get("estado").getAsString();
+
+            // ==========================================
+            // 5. Procesar CitaCreada
             // ==========================================
 
             if ("CitaCreada".equals(eventType)) {
-
-                String fechaCita = data.get("fechaCita").getAsString();
-
-                long idUsuario = data.get("idUsuario").getAsLong();
-
-                long idCliente = data.get("idCliente").getAsLong();
-
-                long idMascota = data.get("idMascota").getAsLong();
-
-                String estado = data.get("estado").getAsString();
-
-                // ======================================
-                // NOTIFICACIÓN
-                // ======================================
 
                 context.getLogger().info("========================================");
 
@@ -68,22 +68,58 @@ public class Function {
 
                 context.getLogger().info("========================================");
 
-                context.getLogger().info("Fecha cita: " + fechaCita);
+                // ==========================================
+                // 6. Procesar CitaConfirmada
+                // ==========================================
 
-                context.getLogger().info("Cliente: " + idCliente);
-
-                context.getLogger().info("Mascota: " + idMascota);
-
-                context.getLogger().info("Usuario: " + idUsuario);
-
-                context.getLogger().info("Estado: " + estado);
+            } else if ("CitaConfirmada".equals(eventType)) {
 
                 context.getLogger().info("========================================");
+
+                context.getLogger().info("NOTIFICACIÓN - CITA CONFIRMADA");
+
+                context.getLogger().info("========================================");
+
+                // ==========================================
+                // 7. Procesar CitaCancelada
+                // ==========================================
+
+            } else if ("CitaCancelada".equals(eventType)) {
+
+                context.getLogger().info("========================================");
+
+                context.getLogger().info("NOTIFICACIÓN - CITA CANCELADA");
+
+                context.getLogger().info("========================================");
+
+                // ==========================================
+                // 8. Evento no soportado
+                // ==========================================
 
             } else {
 
                 context.getLogger().info("Evento recibido pero no procesado: " + eventType);
+
+                return;
             }
+
+            // ==========================================
+            // 9. Información de la cita
+            // ==========================================
+
+            context.getLogger().info("ID Cita: " + idCita);
+
+            context.getLogger().info("Fecha cita: " + fechaCita);
+
+            context.getLogger().info("Cliente: " + idCliente);
+
+            context.getLogger().info("Mascota: " + idMascota);
+
+            context.getLogger().info("Usuario: " + idUsuario);
+
+            context.getLogger().info("Estado: " + estado);
+
+            context.getLogger().info("========================================");
 
         } catch (Exception e) {
 
