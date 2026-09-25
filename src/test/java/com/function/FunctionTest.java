@@ -27,6 +27,7 @@ public class FunctionTest {
                   "eventTime": "2026-09-24T21:00:00Z",
                   "dataVersion": "1.0",
                   "data": {
+                    "idCita": 6,
                     "fechaCita": "30/09/2026 10:00",
                     "idUsuario": 2,
                     "idCliente": 1,

@@ -78,12 +78,12 @@
 
                     <appName>${functionAppName}</appName>
 
-                    <resourceGroup>java-functions-group</resourceGroup>
+                    <resourceGroup>gr-psilva-veterinaria</resourceGroup>
 
-                    <region>westus</region>
+                    <region>westus3</region>
 
                     <appServicePlanName>
-                        java-functions-app-service-plan
+                        ASP-grpsilvaveterinaria-9cee
                     </appServicePlanName>
 
                     <runtime>
